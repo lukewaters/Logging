@@ -10,18 +10,20 @@ namespace Microsoft.Framework.Logging
     {
         private readonly LoggerFactory _loggerFactory;
         private readonly string _name;
+        private readonly bool _sensitiveLoggingEnabled;
         private ILogger[] _loggers = new ILogger[0];
 
-        public Logger(LoggerFactory loggerFactory, string name)
+        public Logger(LoggerFactory loggerFactory, string name, bool sensitiveLoggingEnabled)
         {
             _loggerFactory = loggerFactory;
             _name = name;
+            _sensitiveLoggingEnabled = sensitiveLoggingEnabled;
 
             var providers = loggerFactory.GetProviders();
             _loggers = new ILogger[providers.Length];
             for (var index = 0; index != providers.Length; index++)
             {
-                _loggers[index] = providers[index].Create(name);
+                _loggers[index] = providers[index].Create(name, _sensitiveLoggingEnabled);
             }
         }
 
@@ -38,6 +40,11 @@ namespace Microsoft.Framework.Logging
             return _loggers.Any(l => l.IsEnabled(logLevel));
         }
 
+        public bool SensitiveLoggingEnabled()
+        {
+            return _sensitiveLoggingEnabled;
+        }
+
         public IDisposable BeginScope(object state)
         {
             var count = _loggers.Length;
@@ -51,7 +58,7 @@ namespace Microsoft.Framework.Logging
 
         internal void AddProvider(ILoggerProvider provider)
         {
-            var logger = provider.Create(_name);
+            var logger = provider.Create(_name, _sensitiveLoggingEnabled);
             _loggers = _loggers.Concat(new[] { logger }).ToArray();
         }
 

@@ -22,5 +22,9 @@ namespace Microsoft.Framework.Logging
         {
             return false;
         }
+        public bool SensitiveLoggingEnabled()
+        {
+            return false;
+        }
     }
 }

@@ -15,7 +15,8 @@ namespace Microsoft.Framework.Logging
         /// Creates a new ILogger instance of the given name.
         /// </summary>
         /// <param name="name"></param>
+        /// <param name="sensitiveLoggingEnabled"></param>
         /// <returns></returns>
-        ILogger Create(string name);
+        ILogger Create(string name, bool sensitiveLoggingEnabled);
     }
 }

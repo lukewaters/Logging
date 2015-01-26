@@ -7,16 +7,18 @@ namespace Microsoft.Framework.Logging
     {
         private readonly TestSink _sink;
         private readonly bool _enabled;
+        private readonly bool _sensitiveLoggingEnabled;
 
-        public TestLoggerFactory(TestSink sink, bool enabled)
+        public TestLoggerFactory(TestSink sink, bool enabled, bool sensitiveLoggingEnabled)
         {
             _sink = sink;
             _enabled = enabled;
+            _sensitiveLoggingEnabled = sensitiveLoggingEnabled;
         }
 
         public ILogger Create(string name)
         {
-            return new TestLogger(name, _sink, _enabled);
+            return new TestLogger(name, _sink, _enabled, _sensitiveLoggingEnabled);
         }
 
         public void AddProvider(ILoggerProvider provider)

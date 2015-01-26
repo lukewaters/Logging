@@ -11,12 +11,14 @@ namespace Microsoft.Framework.Logging
         private readonly TestSink _sink;
         private readonly string _name;
         private readonly bool _enabled;
+        private readonly bool _sensitiveLoggingEnabled;
 
-        public TestLogger(string name, TestSink sink, bool enabled)
+        public TestLogger(string name, TestSink sink, bool enabled, bool sensitiveLoggingEnabled)
         {
             _sink = sink;
             _name = name;
             _enabled = enabled;
+            _sensitiveLoggingEnabled = sensitiveLoggingEnabled;
         }
 
         public string Name { get; set; }
@@ -51,6 +53,11 @@ namespace Microsoft.Framework.Logging
         public bool IsEnabled(LogLevel logLevel)
         {
             return _enabled;
+        }
+
+        public bool SensitiveLoggingEnabled()
+        {
+            return _sensitiveLoggingEnabled;
         }
     }
 }

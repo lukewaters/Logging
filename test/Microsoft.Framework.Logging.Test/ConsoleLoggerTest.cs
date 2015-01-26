@@ -21,7 +21,7 @@ namespace Microsoft.Framework.Logging.Test
             // Arrange
             var sink = new ConsoleSink();
             var console = new TestConsole(sink);
-            var logger = new ConsoleLogger(_name, filter);
+            var logger = new ConsoleLogger(_name, filter, true);
             logger.Console = console;
             return new Tuple<ConsoleLogger, ConsoleSink>(logger, sink);
         }

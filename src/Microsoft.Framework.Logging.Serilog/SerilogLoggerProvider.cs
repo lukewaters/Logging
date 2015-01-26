@@ -25,9 +25,9 @@ namespace Microsoft.Framework.Logging.Serilog
                 .CreateLogger();
         }
 
-        public ILogger Create(string name)
+        public ILogger Create(string name, bool sensitiveLoggingEnabled)
         {
-            return new SerilogLogger(this, _logger, name);
+            return new SerilogLogger(this, _logger, name, sensitiveLoggingEnabled);
         }
 
         public IDisposable BeginScope(string name, object state)

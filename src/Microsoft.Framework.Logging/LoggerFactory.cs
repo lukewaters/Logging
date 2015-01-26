@@ -15,6 +15,7 @@ namespace Microsoft.Framework.Logging
         private readonly Dictionary<string, Logger> _loggers = new Dictionary<string, Logger>(StringComparer.Ordinal);
         private ILoggerProvider[] _providers = new ILoggerProvider[0];
         private readonly object _sync = new object();
+        private readonly bool _secureLoggingEnabled = false;
 
         public ILogger Create(string name)
         {
@@ -23,7 +24,7 @@ namespace Microsoft.Framework.Logging
             {
                 if (!_loggers.TryGetValue(name, out logger))
                 {
-                    logger = new Logger(this, name);
+                    logger = new Logger(this, name, _secureLoggingEnabled);
                     _loggers[name] = logger;
                 }
             }

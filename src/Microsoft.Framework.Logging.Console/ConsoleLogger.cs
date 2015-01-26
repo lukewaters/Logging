@@ -14,11 +14,13 @@ namespace Microsoft.Framework.Logging.Console
         private readonly string _name;
         private Func<string, LogLevel, bool> _filter;
         private readonly object _lock = new object();
+        private readonly bool _sensitiveLoggingEnabled;
 
-        public ConsoleLogger(string name, Func<string, LogLevel, bool> filter)
+        public ConsoleLogger(string name, Func<string, LogLevel, bool> filter, bool sensitiveLoggingEnabled)
         {
             _name = name;
             _filter = filter ?? ((category, logLevel) => true);
+            _sensitiveLoggingEnabled = sensitiveLoggingEnabled;
             Console = new LogConsole();
         }
 
@@ -171,6 +173,12 @@ namespace Microsoft.Framework.Logging.Console
                 }
                 isFirst = false;
             }
+        }
+
+
+        public bool SensitiveLoggingEnabled()
+        {
+            return _sensitiveLoggingEnabled;
         }
     }
 }

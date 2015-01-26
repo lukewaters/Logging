@@ -16,7 +16,7 @@ namespace Microsoft.Framework.Logging.Test
         private TestLogger SetUp(TestSink sink)
         {
             // Arrange
-            var logger = new TestLogger(_name, sink, enabled: true);
+            var logger = new TestLogger(_name, sink, enabled: true, sensitiveLoggingEnabled: true);
             return logger;
         }
 

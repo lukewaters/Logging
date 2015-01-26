@@ -15,18 +15,20 @@ namespace Microsoft.Framework.Logging.NLog
             _logFactory = logFactory;
         }
 
-        public ILogger Create(string name)
+        public ILogger Create(string name, bool sensitiveLoggingEnabled)
         {
-            return new Logger(_logFactory.GetLogger(name));
+            return new Logger(_logFactory.GetLogger(name), sensitiveLoggingEnabled);
         }
 
         private class Logger : ILogger
         {
             private readonly global::NLog.Logger _logger;
+            private readonly bool _sensitiveLoggingEnabled;
 
-            public Logger(global::NLog.Logger logger)
+            public Logger(global::NLog.Logger logger, bool sensitiveLoggingEnabled)
             {
                 _logger = logger;
+                _sensitiveLoggingEnabled = sensitiveLoggingEnabled;
             }
 
             public void Write(
@@ -57,6 +59,11 @@ namespace Microsoft.Framework.Logging.NLog
             public bool IsEnabled(LogLevel logLevel)
             {
                 return _logger.IsEnabled(GetLogLevel(logLevel));
+            }
+
+            public bool SensitiveLoggingEnabled()
+            {
+                return _sensitiveLoggingEnabled;
             }
 
             private global::NLog.LogLevel GetLogLevel(LogLevel logLevel)

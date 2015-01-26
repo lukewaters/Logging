@@ -15,14 +15,17 @@ namespace Microsoft.Framework.Logging.Serilog
         private readonly SerilogLoggerProvider _provider;
         private readonly string _name;
         private readonly SLogger _logger;
+        private readonly bool _sensitiveLoggingEnabled;
 
         public SerilogLogger(
             [NotNull] SerilogLoggerProvider provider,
             [NotNull] SLogger logger,
-            string name)
+            string name,
+            bool sensitiveLoggingEnabled)
         {
             _provider = provider;
             _name = name;
+            _sensitiveLoggingEnabled = sensitiveLoggingEnabled;
             _logger = logger.ForContext(Constants.SourceContextPropertyName, name);
         }
 
@@ -34,6 +37,11 @@ namespace Microsoft.Framework.Logging.Serilog
         public bool IsEnabled(LogLevel logLevel)
         {
             return _logger.IsEnabled(ConvertLevel(logLevel));
+        }
+
+        public bool SensitiveLoggingEnabled()
+        {
+            return _sensitiveLoggingEnabled;
         }
 
         public void Write(LogLevel logLevel, int eventId, object state, Exception exception, Func<object, Exception, string> formatter)

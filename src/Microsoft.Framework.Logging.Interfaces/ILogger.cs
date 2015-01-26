@@ -32,6 +32,12 @@ namespace Microsoft.Framework.Logging
         bool IsEnabled(LogLevel logLevel);
 
         /// <summary>
+        /// Checks if Sensitive data can be included in log messages
+        /// </summary>
+        /// <returns></returns>
+        bool SensitiveLoggingEnabled();
+
+        /// <summary>
         /// Begins a logical operation scope.
         /// </summary>
         /// <param name="state">The identifier for the scope.</param>

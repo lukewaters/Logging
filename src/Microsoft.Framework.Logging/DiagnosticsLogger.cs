@@ -10,10 +10,12 @@ namespace Microsoft.Framework.Logging
     internal class DiagnosticsLogger : ILogger
     {
         private readonly TraceSource _traceSource;
+        private readonly bool _sensitiveLoggingEnabled;
 
-        public DiagnosticsLogger(TraceSource traceSource)
+        public DiagnosticsLogger(TraceSource traceSource, bool sensitiveLoggingEnabled)
         {
             _traceSource = traceSource;
+            _sensitiveLoggingEnabled = sensitiveLoggingEnabled;
         }
 
         public void Write(LogLevel logLevel, int eventId, object state, Exception exception, Func<object, Exception, string> formatter)
@@ -48,6 +50,11 @@ namespace Microsoft.Framework.Logging
         {
             var traceEventType = GetEventType(logLevel);
             return _traceSource.Switch.ShouldTrace(traceEventType);
+        }
+
+        public bool SensitiveLoggingEnabled()
+        {
+            return _sensitiveLoggingEnabled;
         }
 
         private static TraceEventType GetEventType(LogLevel logLevel)

@@ -28,7 +28,7 @@ namespace Microsoft.Framework.Logging.Test
             var sink = new SerilogSink();
             serilog.WriteTo.Sink(sink);
             var provider = new SerilogLoggerProvider(serilog);
-            var logger = (SerilogLogger)provider.Create(_name);
+            var logger = (SerilogLogger)provider.Create(_name, true);
 
             return new Tuple<SerilogLogger, SerilogSink>(logger, sink);
         }
